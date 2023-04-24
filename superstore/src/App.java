@@ -66,8 +66,6 @@ public class App {
 
         Boolean blah; 
 
-        boolean endGame = false; 
-
         ArrayList<items> things = new ArrayList<items>(); 
         ArrayList<items> itemList = new ArrayList<items>(); 
 
@@ -101,7 +99,6 @@ public class App {
                 if (u.stocksAvail > 0) {
                     break;
                 }
-                // else if (u.stocksAvail == 0) {
                 else{
                     System.out.println("You purchased an entire company's stocks, you win!!");
                     System.exit(0);
