@@ -2,7 +2,6 @@ import java.util.*;
 
 public class App {
 
-    // checks if the string can be parsed as an integer
     public static boolean validInt(String string) {
         try {
             Integer.parseInt(string);
@@ -13,18 +12,15 @@ public class App {
         }
     }
 
-    // Pick a stocks index
     public static int chooseStock(Scanner input) {
         String roar;
 
         int STchoice = 0;
 
-        // loop until the user picks an integer between 1 and 10
         while (STchoice < 1 || STchoice > 10) {
             System.out.println("Which stock would you like to buy (1-10)? ");
             roar = input.nextLine();
 
-            // checks if the user input is an integer
             if (validInt(roar)) {
                 STchoice = Integer.parseInt(roar);
             }
@@ -33,11 +29,9 @@ public class App {
                 System.out.println("Invalid choice. Please enter a number between 1 and 10.");
             }
         }
-        // return the index of the stock and subtract 1 to allow the user to pick apple
         return STchoice - 1;
     }
 
-    // asks the user to buy or sell the chosen stock from above
     public static String buyorSell(Scanner input) {
 
         String roar2;
@@ -45,7 +39,6 @@ public class App {
 
         System.out.println("Would you like to buy or sell this stock? Please enter either 'b' or 's'.");
 
-        // loop until the user picks a valid option
         while (true) {
             roar2 = input.nextLine();
             System.out.println(roar2);
@@ -59,46 +52,40 @@ public class App {
             }
 
         }
-        // return the user's choice as a string
         return BSchoice;
     }
 
     public static void main(String[] args) throws Exception {
 
-        int x = 1; // used to print the stocks
-        int word; // index of the stock
-        int sub; // subtracting the cost of a stock from the player's money
-        int add; // adding the cost of a stock to the player's money
+        int x = 1; 
+        int word; 
+        int sub; 
+        int add; 
 
-        String word2; // player's choice to buy or sell
+        String word2; 
 
-        Boolean blah; // boolean to check whether or not the player owns the stock they are trying to
-                      // interact with
+        Boolean blah; 
 
-        boolean endGame = false; // used to check if the game can end if the player has bought out a company
+        boolean endGame = false; 
 
-        ArrayList<items> things = new ArrayList<items>(); // player's list of owned stock
-        ArrayList<items> itemList = new ArrayList<items>(); // list of instances of the item class
+        ArrayList<items> things = new ArrayList<items>(); 
+        ArrayList<items> itemList = new ArrayList<items>(); 
 
-        Player User = new Player(1000, things); // initialize the player with a 1000 dollars and an empty list of stocks
+        Player User = new Player(1000, things); 
 
         Scanner input = new Scanner(System.in);
 
-        // create a list of items name, cost, percent change, and stocks available to
-        // buy
-        itemList.add(new StableStock("Apple", 55, 10, 1));
-        itemList.add(new items("Microsoft", 50, 12, 60));
-        itemList.add(new items("Netflix", 45, 14, 70));
-        itemList.add(new items("Disney", 40, 16, 70));
-        itemList.add(new items("Toyota", 35, 18, 80));
+        itemList.add(new StableStock("Apple", 55, 10, 50));
+        itemList.add(new VolatileStock("Microsoft", 50, 12, 60));
+        itemList.add(new StableStock("Netflix", 45, 14, 70));
+        itemList.add(new VolatileStock("Disney", 40, 16, 70));
+        itemList.add(new StableStock("Toyota", 35, 18, 80));
         itemList.add(new VolatileStock("Mercedes", 30, 20, 80));
-        itemList.add(new items("Meta", 25, 22, 90));
-        itemList.add(new items("Twitter", 20, 24, 90));
+        itemList.add(new StableStock("Meta", 25, 22, 90));
+        itemList.add(new VolatileStock("Twitter", 20, 24, 90));
         itemList.add(new items("Walmart", 15, 26, 100));
-        itemList.add(new StableStock("Amazon", 10, 28, 1));
+        itemList.add(new items("Amazon", 10, 28, 110));
 
-        // Loop that displays the list of items and their details
-        // dependant on the fact the user still has money
         while (User.Money > 0) {
             for (items q : itemList) {
                 System.out.println(x + ") " + q.Name + " - $" + q.Cost + " - " + q.stocksAvail);
@@ -107,8 +94,8 @@ public class App {
 
             x = 1;
 
-            word = chooseStock(input); // Get user input for which item they want to buy or sell
-            word2 = buyorSell(input); // Get user input for whether they want to buy or sell the item
+            word = chooseStock(input); 
+            word2 = buyorSell(input); 
 
             for (items u : itemList) {
                 if (u.stocksAvail > 0) {
@@ -121,24 +108,22 @@ public class App {
                 }
             }
 
-            // uses the user input to check if it's a buy or sell
             if (word2.equals("b") || word2.equals("B")) {
                 if (User.Money < itemList.get(word).getCost()) {
                     System.out.println("You cannot buy this item.");
                     continue;
                 }
 
-                //either decreases or increases each items cost
                 for (items e : itemList) {
                     e.reprice();
                 }
 
-                things.add(itemList.get(word)); // adds the stock to the player's list of owned stocks
-                sub = itemList.get(word).getCost(); //gets the cost of the stock
+                things.add(itemList.get(word)); 
+                sub = itemList.get(word).getCost(); 
 
-                User.Money -= sub; // subtracts the cost of the stock from the user's money
+                User.Money -= sub; 
 
-                itemList.get(word).stocksAvail--; //subtracts stocksAvail by 1
+                itemList.get(word).stocksAvail--; 
                 System.out.println(
                         "You bought 1 " + itemList.get(word).Name + " stock.\nThere are now " + itemList.get(word).stocksAvail
                                 + " remaining.\n You now have " + User.Money + " dollars remaining.");
