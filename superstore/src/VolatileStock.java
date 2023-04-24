@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class VolatileStock extends items {
-    // Constructor
     VolatileStock(String Name, int Cost, int perChange, int stocksAvail) {
         super(Name, Cost, perChange, stocksAvail);
     }
